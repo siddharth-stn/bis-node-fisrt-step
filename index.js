@@ -10,45 +10,56 @@ const { dirname } = require('path');
 const port = process.env.PORT;
 const hostname = process.env.HOSTNAME;
 
-const server = http.createServer((req, res) => {
-    console.log(req.url);
-    console.log();
-
-    if (req.url === '/index') {
-        fs.readFile(__dirname + req.url + '.html', 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            res.end(data);
-        });
-    } else if (req.url === '/contact-me') {
-        fs.readFile(__dirname + req.url + '.html', 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            res.end(data);
-        });
-    } else if (req.url === '/about') {
-        fs.readFile(__dirname + req.url + '.html', 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            res.end(data);
-        });
-    } else {
-        fs.readFile(__dirname + '/404.html', 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            res.end(data);
-        });
-    } 
+app.get('/', (req, res) => {
+    fs.readFile(__dirname + '/index.html', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        res.send(data);
+    })
 });
 
-server.listen(port, hostname, () => {
+app.get('/index', (req, res) => {
+    fs.readFile(__dirname + '/index.html', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        res.send(data);
+    });
+});
+
+app.get('/contact-me', (req, res) => {
+    fs.readFile(__dirname + '/contact-me.html', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        res.send(data);
+    });
+});
+
+app.get('/about', (req, res) => {
+    fs.readFile(__dirname + '/about.html', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        res.send(data);
+    });
+});
+
+app.use((req, res) => {
+    fs.readFile(__dirname + '/404.html', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        res.send(data);
+    });
+});
+
+app.listen(port, hostname, () => {
     console.log(`Server is running at ${hostname}:${port}`);
 });
